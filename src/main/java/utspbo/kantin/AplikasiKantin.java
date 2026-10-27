@@ -1,10 +1,13 @@
 package utspbo.kantin;
 // Memakai Scanner untuk membaca ketikan dari keyboard.
+
 import java.util.Scanner;
 // Program utama; method main dijalankan pertama kali saat Run (F6).
+
 public class AplikasiKantin {
+
     // Konstanta: static = milik class, final = tidak bisa diubah. GANTI dengan data Anda.
-    private static final String NAMA = "Mahasiswa Contoh";
+    private static final String NAMA = "Putu Agus Saputra";
     private static final String NIM = "2501010063";
     // true jika NIM tepat 10 angka (tanpa huruf/spasi).
     private static final boolean NIM_VALID = NIM.matches("\\d{10}");
@@ -12,7 +15,7 @@ public class AplikasiKantin {
     private static final String XYZ = NIM_VALID ? NIM.substring(NIM.length() - 3) : "000";
     // true jika 2 digit terakhir NIM ganjil (% 2 = sisa bagi 2).
     private static final boolean NIM_GANJIL = NIM_VALID
-        && Integer.parseInt(NIM.substring(NIM.length() - 2)) % 2 == 1;
+            && Integer.parseInt(NIM.substring(NIM.length() - 2)) % 2 == 1;
     // Satu Scanner dipakai bersama; System.in = input keyboard.
     private static final Scanner INPUT = new Scanner(System.in);
     // Daftar menu (array bertipe Menu); urutannya menjadi nomor pilihan 1, 2, 3.
@@ -22,9 +25,10 @@ public class AplikasiKantin {
         new Minuman("MN-" + XYZ, "Es Teh", 5000, 10, 2000),
         // Menu nomor 3 otomatis: NIM ganjil -> Dessert, genap -> Snack.
         NIM_GANJIL ? new Dessert("DS-" + XYZ, "Es Krim", 12000, 4, 3000)
-                   : new Snack("SN-" + XYZ, "Keripik", 8000, 4, 1000)
+        : new Snack("SN-" + XYZ, "Keripik", 8000, 4, 1000)
 
     };
+
     // Pintu masuk program.
     public static void main(String[] args) {
         // NAMA kosong: tampilkan pesan lalu berhenti.
@@ -66,14 +70,14 @@ public class AplikasiKantin {
                 int jumlah = bacaInt("Jumlah porsi       : ");
                 // Membuat pesanan; jika gagal, muncul error dan perulangan diulang.
                 pesanan = new Pesanan("PSN-" + XYZ, NAMA, menuDipilih, jumlah);
-            // Menangkap error stok tidak cukup.
+                // Menangkap error stok tidak cukup.
             } catch (StokHabisException e) {
                 // Menampilkan pesan error ke pengguna.
                 System.out.println(">> Pesanan ditolak: " + e.getMessage());
-            // Menangkap error data tidak valid (mis. jumlah 0).
+                // Menangkap error data tidak valid (mis. jumlah 0).
             } catch (IllegalArgumentException e) {
                 System.out.println(">> Data pesanan tidak valid: " + e.getMessage());
-            // finally selalu dijalankan, berhasil maupun gagal.
+                // finally selalu dijalankan, berhasil maupun gagal.
             } finally {
                 System.out.println("[Log] Pengisian pesanan selesai.");
             }
@@ -83,11 +87,12 @@ public class AplikasiKantin {
         // Kalimat penutup program.
         System.out.println("Selesai dijalankan oleh " + NAMA + " (" + NIM + ")");
     }
+
     // Membaca teks dari keyboard dan menolak isian kosong.
     private static String bacaTeks(String label) {
         // Diisi kosong agar perulangan berjalan minimal sekali.
         String teks = "";
-         // Ulangi selama teks masih kosong.
+        // Ulangi selama teks masih kosong.
         while (teks.isEmpty()) {
             // print = cetak tanpa pindah baris.
             System.out.print(label);
@@ -99,6 +104,7 @@ public class AplikasiKantin {
         }
         return teks;
     }
+
     // Membaca angka bulat; huruf (mis. jjk) ditolak dan diminta ulang.
     private static int bacaInt(String label) {
         // Ulangi terus sampai return dijalankan.
@@ -112,6 +118,7 @@ public class AplikasiKantin {
             }
         }
     }
+
     // Mencetak daftar menu: nomor, nama, kode, harga, biaya tambahan, stok.
     private static void tampilDaftarMenu() {
         System.out.println("=== DAFTAR MENU KANTIN ===");

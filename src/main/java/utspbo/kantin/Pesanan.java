@@ -35,9 +35,9 @@ public class Pesanan {// Menyimpan satu pesanan, memeriksanya, mengurangi stok, 
         
          // Mencetak teks ke jendela Output lalu pindah baris.
         System.out.println("--- DETAIL PESANAN ---");
-        System.out.println("Kode pesanan   : " + kodePesanan);
-        System.out.println("Pemesan        : " + namaPemesan);
-        System.out.println("Menu           : " + menu.getNamaMenu() + " ("
+        System.out.println("Kode pesanan       : " + kodePesanan);
+        System.out.println("Pemesan            : " + namaPemesan);
+        System.out.println("Menu               : " + menu.getNamaMenu() + " ("
                 + menu.getKodeMenu() + ") x" + jumlah);
         
         System.out.println("Harga satuan       : Rp" + menu.getHarga());
@@ -49,7 +49,7 @@ public class Pesanan {// Menyimpan satu pesanan, memeriksanya, mengurangi stok, 
                  + " (" + keterangan + ")");
 }
         System.out.println("Total bayar        : Rp" + hitungTotal());
-        System.out.println("Stok tersisa   : " + menu.getStok());
-        System.out.println("----------------------");
+        System.out.println("Stok tersisa       : " + menu.getStok());
+        System.out.println("-----------------------");
     }   
 }

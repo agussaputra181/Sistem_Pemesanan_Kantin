@@ -56,7 +56,7 @@ dan total bayar.
 ## Struktur Folder
 ```
 src/main/java/utspbo/kantin/
-├── Aplikasi.java
+├── AplikasiKantin.java
 ├── Dessert.java
 ├── Makanan.java
 ├── Menu.java
