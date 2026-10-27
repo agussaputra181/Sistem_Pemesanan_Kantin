@@ -1,42 +1,47 @@
 package utspbo.kantin;
-
-import java.util.Scanner;// Memakai Scanner untuk membaca ketikan dari keyboard.
-
-public class Aplikasi {// Program utama; method main dijalankan pertama kali saat Run (F6).
-
+// Memakai Scanner untuk membaca ketikan dari keyboard.
+import java.util.Scanner;
+// Program utama; method main dijalankan pertama kali saat Run (F6).
+public class AplikasiKantin {
     // Konstanta: static = milik class, final = tidak bisa diubah. GANTI dengan data Anda.
-    private static String NAMA;
-    private static String NIM;
-    // 3 angka terakhir NIM untuk kode menu/pesanan.
-    private static String XYZ;
+    private static final String NAMA = "Mahasiswa Contoh";
+    private static final String NIM = "2501010063";
+    // true jika NIM tepat 10 angka (tanpa huruf/spasi).
+    private static final boolean NIM_VALID = NIM.matches("\\d{10}");
+    // 3 angka terakhir NIM untuk kode menu/pesanan; "000" jika NIM tidak valid.
+    private static final String XYZ = NIM_VALID ? NIM.substring(NIM.length() - 3) : "000";
     // true jika 2 digit terakhir NIM ganjil (% 2 = sisa bagi 2).
-    private static boolean NIM_GANJIL;
+    private static final boolean NIM_GANJIL = NIM_VALID
+        && Integer.parseInt(NIM.substring(NIM.length() - 2)) % 2 == 1;
     // Satu Scanner dipakai bersama; System.in = input keyboard.
     private static final Scanner INPUT = new Scanner(System.in);
-    // Daftar menu dibuat setelah NIM diketahui.
-    private static Menu[] DAFTAR_MENU;
+    // Daftar menu (array bertipe Menu); urutannya menjadi nomor pilihan 1, 2, 3.
+    private static final Menu[] DAFTAR_MENU = {
+        // Membuat menu Makanan dengan kode MK- + 3 digit NIM.
+        new Makanan("MK-" + XYZ, "Nasi Goreng", 15000, 5),
+        new Minuman("MN-" + XYZ, "Es Teh", 5000, 10, 2000),
+        // Menu nomor 3 otomatis: NIM ganjil -> Dessert, genap -> Snack.
+        NIM_GANJIL ? new Dessert("DS-" + XYZ, "Es Krim", 12000, 4, 3000)
+                   : new Snack("SN-" + XYZ, "Keripik", 8000, 4, 1000)
 
+    };
+    // Pintu masuk program.
     public static void main(String[] args) {
-        // Input nama (kosong otomatis ditolak oleh bacaTeks).
-        NAMA = bacaTeks("Nama               : ");
-        // Input NIM; diulang sampai tepat 10 angka.
-        NIM = bacaTeks("NIM (10 digit)     : ");
-        while (!NIM.matches("\\d{10}")) {
-            System.out.println(">> NIM harus 10 digit angka, tanpa huruf/spasi.");
-            NIM = bacaTeks("NIM (10 digit)     : ");
+        // NAMA kosong: tampilkan pesan lalu berhenti.
+        if (NAMA.trim().isEmpty()) {
+            System.out.println(">> NAMA belum diisi. Isi konstanta NAMA di "
+                    + "AplikasiKantin.java.");
+            // Keluar dari main (program berhenti).
+            return;
         }
-        // Ambil 3 digit terakhir dan cek ganjil/genap dari 2 digit terakhir.
-        XYZ = NIM.substring(NIM.length() - 3);
-        NIM_GANJIL = Integer.parseInt(NIM.substring(NIM.length() - 2)) % 2 == 1;
-        System.out.println(">> NIM " + (NIM_GANJIL ? "GANJIL -> paket Dessert"
-                : "GENAP -> paket Snack"));
-        // Menyusun daftar menu sesuai hasil cek NIM.
-        DAFTAR_MENU = new Menu[] {
-            new Makanan("MK-" + XYZ, "Nasi Goreng", 15000, 5),
-            new Minuman("MN-" + XYZ, "Es Teh", 5000, 10, 2000),
-            NIM_GANJIL ? new Dessert("DS-" + XYZ, "Es Krim", 12000, 4, 3000)
-                    : new Snack("SN-" + XYZ, "Keripik", 8000, 4, 1000)
-        };
+        // NIM tidak valid (! = tidak): tampilkan pesan lalu berhenti.
+        if (!NIM_VALID) {
+            System.out.println(">> NIM \"" + NIM + "\" tidak valid: harus 10 digit "
+                    + "angka, tanpa huruf/spasi (contoh: 2501010063).");
+            System.out.println(">> Perbaiki konstanta NIM di AplikasiKantin.java "
+                    + "lalu Run ulang.");
+            return;
+        }
         // Menampilkan identitas di baris pertama.
         System.out.println("UTS PBO | " + NAMA + " | " + NIM);
         // Menampilkan daftar menu.
@@ -75,14 +80,14 @@ public class Aplikasi {// Program utama; method main dijalankan pertama kali saa
         }
         // Pesanan berhasil: cetak detailnya.
         pesanan.cetakDetail();
+        // Kalimat penutup program.
         System.out.println("Selesai dijalankan oleh " + NAMA + " (" + NIM + ")");
     }
-
     // Membaca teks dari keyboard dan menolak isian kosong.
     private static String bacaTeks(String label) {
         // Diisi kosong agar perulangan berjalan minimal sekali.
         String teks = "";
-        // Ulangi selama teks masih kosong.
+         // Ulangi selama teks masih kosong.
         while (teks.isEmpty()) {
             // print = cetak tanpa pindah baris.
             System.out.print(label);
@@ -94,7 +99,6 @@ public class Aplikasi {// Program utama; method main dijalankan pertama kali saa
         }
         return teks;
     }
-
     // Membaca angka bulat; huruf (mis. jjk) ditolak dan diminta ulang.
     private static int bacaInt(String label) {
         // Ulangi terus sampai return dijalankan.
@@ -108,7 +112,6 @@ public class Aplikasi {// Program utama; method main dijalankan pertama kali saa
             }
         }
     }
-
     // Mencetak daftar menu: nomor, nama, kode, harga, biaya tambahan, stok.
     private static void tampilDaftarMenu() {
         System.out.println("=== DAFTAR MENU KANTIN ===");
